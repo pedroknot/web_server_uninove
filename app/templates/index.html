@@ -3,40 +3,62 @@
 {% block title %}{{ super() }} - Index{% endblock %}
 
 {% block content %}
-<main role="main">
-
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
+    
+    <main role="main">
+    
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+   
+     
+        <div class="container"> 
+           <!--Apresentação -->       
+            <h1 class="display-3">Recursos</h1>            
+          <p>Este é o parágrafo de introdução da seção de qualidades. 
+            Use este espaço para apresentar credenciais específicas, benefícios ou recursos especiais que você oferece. Esta é uma chance de destacar os aspectos únicos e valiosos que o diferenciam da competição.</p>            
+          <p><a class="btn btn-info" btn-lg" href="#" role="button">Learn more »</a></p>
+         
+        </div>
+        
+      </div>
+    
       <div class="container">
-        <h1 class="display-3">Bem-vindo ao Toilter!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-      </div>
-    </div>
-  
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        <!-- Example row of columns -->
+        <div class="row"> 
+   
+          <div class="col-md-4">
+            <div class="Foto1">
+              <img src="../static/img/foto1.PNG" alt="Imagem1" height="200px"/>
+            <h3>Premiado</h3>
+            <p>Oferecemos apenas o melhor </p>
+            <p><a class="btn btn-info "  href="#" role="button">Clique aqui »</a></p>
+          </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="Foto2">
+   
+            <h3>Atendimento por
+                  24 horas</h3>
+            <p>Verdadeiramente de alto nível. </p>
+            <p><a class="btn btn-info" href="#" role="button">Clique aqui »</a></p>
+            <img src="../static/img/foto2.PNG" alt="Imagem2" height="200px"/>
+          </div>
+         
         </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+
+          <div class="col-md-4">
+            <div class="Foto3">
+              <img src="../static/img/foto3.PNG" alt="Imagem3" height="200px"/>
+            <h3>Baixe nosso aplicativo</h3>
+            <p>Tenha nossas ofertas na palma da mão </p>
+            <p><a class="btn btn-info" href="#" role="button">Clique aqui »</a></p>
+          </div>
         </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
         </div>
-      </div>
-  
-      <hr>
-  
-    </div> <!-- /container -->
-  
-  </main>
-  {% endblock %}
+    
+        <hr>
+    
+      </div> <!-- /container -->
+    
+    </main>
+{% endblock %}
