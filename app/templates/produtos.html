@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>Produtos</title>
+  <link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <!--Nome do LOGO-->
+    <a class="navbar-brand" href="#">Site de Vendas E-Commerce</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('index')}}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('produtos')}}">Produtos <span class="sr-only">(current)</span></a>
+        </li>
+
+          {% if current_user.is_authenticated %}
+          <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout')}}">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('login')}}">Login</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+         
+      </ul>
+    </div>
+  </nav>
+  <br><br><br>
+  
+  <table id="minhaTabela">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Telefone</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for i in range(30) %}
+      <tr>
+        <td>Vinicius Moura</td>
+        <td>viniciusmouramail@gmail.com</td>
+        <td>49 12345-68791</td>
+        <td><a href="">Deletar</a></td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td>José Andrade</td>
+        <td>joseandrade@gmail.com</td>
+        <td>32 9875-68791</td>
+        <td><a href="">Deletar</a></td>
+      </tr>
+      <tr>
+        <td>Rodrigo Costa</td>
+        <td>rodrigocosta@gmail.com</td>
+        <td>32 4564-68791</td>
+        <td><a href="">Deletar</a></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+  <script>
+  $(document).ready(function(){
+      $('#minhaTabela').DataTable({
+          "language": {
+                "lengthMenu": "Mostrando _MENU_ registros por página",
+                "zeroRecords": "Nada encontrado",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "Nenhum registro disponível",
+                "infoFiltered": "(filtrado de _MAX_ registros no total)"
+            }
+        });
+  });
+  </script>
+  <br><br>
+  <footer class="container">
+    <div class="fim">
+    <h2>Site de vendas E - Ecommerce</h2>
+    <p>© Uni0 2020</p>
+  </footer>
+        <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.4/dist/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+    </div>
+  </body>
+</html>
