@@ -12,10 +12,9 @@
      
         <div class="container"> 
            <!--Apresentação -->       
-            <h1 class="display-3">Recursos</h1>            
-          <p>Este é o parágrafo de introdução da seção de qualidades. 
-            Use este espaço para apresentar credenciais específicas, benefícios ou recursos especiais que você oferece. Esta é uma chance de destacar os aspectos únicos e valiosos que o diferenciam da competição.</p>            
-          <p><a class="btn btn-info" btn-lg" href="#" role="button">Learn more »</a></p>
+            <h1 class="display-3">Virtual ShopCase</h1>            
+          <p>A Virtual ShopCase  é uma empresa de fornecimento em prol de tecnogia para ajudar nossos clientes e fornecedores a vender com facilidade seus produtos Online.</p>            
+          <p><a class="btn btn-info" btn-lg  href="{{ url_for('sobre')}}" role="button">Saiba Mais</a></p>
          
         </div>
         
@@ -25,37 +24,33 @@
         <!-- Example row of columns -->
         <div class="row"> 
    
-          <div class="col-md-4">
-            <div class="Foto1">
-              <img src="../static/img/foto1.PNG" alt="Imagem1" height="200px"/>
-            <h3>Premiado</h3>
-            <p>Oferecemos apenas o melhor </p>
-            <p><a class="btn btn-info "  href="#" role="button">Clique aqui »</a></p>
-          </div>
+          <div class="card" style="width: 18rem; margin: auto;" >
+            <img src="../static/img/foto1.PNG" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Premiado</h5>
+              <p class="card-text">Oferecemos apenas o melhor</p>
+              <!-- <a href="#" class="btn btn-primary">Clique aqui</a> -->
+            </div>
           </div>
           
-          <div class="col-md-4">
-            <div class="Foto2">
-   
-            <h3>Atendimento por
-                  24 horas</h3>
-            <p>Verdadeiramente de alto nível. </p>
-            <p><a class="btn btn-info" href="#" role="button">Clique aqui »</a></p>
-            <img src="../static/img/foto2.PNG" alt="Imagem2" height="200px"/>
+        <div class="card" style="width: 18rem; margin: auto;">
+          <img src="../static/img/foto2.PNG" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Atendimento 24 horas</h5>
+            <p class="card-text">Verdadeiramente de alto nível</p>
+            <!-- <a href="#" class="btn btn-primary">Clique aqui</a> -->
           </div>
-         
-        </div>
-
-          <div class="col-md-4">
-            <div class="Foto3">
-              <img src="../static/img/foto3.PNG" alt="Imagem3" height="200px"/>
-            <h3>Baixe nosso aplicativo</h3>
-            <p>Tenha nossas ofertas na palma da mão </p>
-            <p><a class="btn btn-info" href="#" role="button">Clique aqui »</a></p>
-          </div>
-        </div>
         </div>
     
+        <div class="card" style="width: 18rem; margin: auto;">
+          <img src="../static/img/foto3.PNG" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Baixe nosso aplicativo</h5>
+            <p class="card-text">Tenha nossas ofertas na palma da mão</p>
+            <a href="{{ url_for('download_app')}}" class="btn btn-primary">Clique aqui</a>
+          </div>
+        </div>
+
         <hr>
     
       </div> <!-- /container -->

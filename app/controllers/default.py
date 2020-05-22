@@ -47,6 +47,18 @@ def logout():
 def produtos():
     return render_template('produtos.html')
 
+@app.route("/contato")
+def contato():
+    return render_template('contato.html')
+
+@app.route("/sobre")
+def sobre():
+    return render_template('sobre.html')
+
+@app.route("/download_app")
+def download_app():
+    return render_template('download_app.html')
+
 # @app.route("/teste/<info>")
 # @app.route("/teste", defaults={"info":None})
 # def teste(info):

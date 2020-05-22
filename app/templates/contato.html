@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ super() }} - Contato{% endblock %}
+
+{% block content %}
+        
+    <main role="main">
+    
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <form>
+             <!--Nome e Sobrenome para contato -->
+            <div class="row">
+                <div class="col">
+                  <label for="Nome">Digite seu nome</label>
+                  <input type="text" class="form-control" placeholder="Nome">
+                </div>
+                <div class="col">
+                  <label for="Nome">Digite seu sobrenome</label>
+                  <input type="text" class="form-control" placeholder="Sobrenome">
+                </div>
+              </div>
+
+            <!--E-mail-->
+            <div class="form-group" >
+              <label for="exampleInputEmail1">Endereço de email</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Seu email">
+              <small id="emailHelp" class="form-text text-muted">Nunca vamos compartilhar seu email, com ninguém.</small>
+            </div>
+
+            <!--Telefone-->
+            <div class="form-group">
+                <label for="exampleInputTelefone">Telefone</label>
+                <input type="number" class="form-control" id="exampleInputTelefone" placeholder="Telefone">
+                <small id="TelefoneHelp" class="form-text text-muted">Nunca vamos compartilhar seu telefone, com ninguém.</small>  
+            </div>
+
+            <!--Selecione o Assunto-->
+              <select class="custom-select custom-select-sm">
+                <option selected>Assunto</option>
+                <option value="1">Dúvidas</option>
+                <option value="2">Reclamação</option>
+                <option value="3">Fornecedores</option>
+              </select>
+
+            <!-- Área para inserir mensagem de contato-->
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Digite aqui a sua mensagem</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              </div>
+
+              <!-- Botão de enviar-->
+            <div class="form-group form-check">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </form>  
+           
+         
+        </div>
+        
+      </div>
+    
+    </main>
+    {% endblock %}

@@ -7,16 +7,21 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../static/css/style.css"> 
+
 <!--Título do site-->
     <title>{% block title %}Uni0{% endblock %}</title>
   </head>
-    <body>
+    
+  <body>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
           <!--Nome do LOGO-->
-      <a class="navbar-brand" href="#">Site de Vendas E-Commerce</a>
+          <a class="navbar-brand" href="{{ url_for('sobre')}}"><img src="../static/img/logo.jpeg" style="width:120px;"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      
     
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
@@ -25,6 +30,9 @@
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="{{ url_for('produtos')}}">Produtos <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('contato')}}">Contatos <span class="sr-only">(current)</span></a>
           </li>
 
             {% if current_user.is_authenticated %}
@@ -57,11 +65,64 @@
     {% block content %}
     {% endblock %}
  
-    <footer class="container">
-      <div class="fim">
-      <h2>Site de vendas E - Ecommerce</h2>
-      <p>© Uni0 2020</p>
-    </footer>
+    <footer id="footer">
+      <div class="footer" id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3> WEB </h3>
+                    <ul>
+                        <li> <a href="#"> Brenda do Carmo Ramos</a> </li>
+                        <li> <a href="#"> Douglas Santana </a> </li>
+                        <li> <a href="#"> Catharina Balliego</a> </li>
+                    </ul>
+                </div>
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3> API </h3>
+                    <ul>
+                        <li> <a href="#"> Pedro Henrique Rodrigues </a> </li>
+                    </ul>
+                </div>
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3> ANDROID </h3>
+                    <ul>
+                        <li> <a href="#"> Emerson Giovanelli </a> </li>
+                    </ul>
+                </div>
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3> BANCO DE DADOS </h3>
+                    <ul>
+                        <li> <a href="#"> Wesley Ferreira </a> </li>
+                        <li> <a href="#"> Mateus Mauricio  </a> </li>
+                        <li> <a href="#"> Robson Oliveira Gomes </a> </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3  col-md-3 col-sm-6 col-xs-12 ">
+                    <h3> Fale Conosco </h3>
+                    <ul>
+                        <li>
+                            <div class="input-append newsletter-box text-center">
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="social">
+                        <li> <a href="https://www.facebook.com/profile.php?id=100051563652275"> <i class=" fa fa-facebook">   </i> </a> </li>
+                        <li> <a href="https://www.instagram.com/virtual_shopcase/"> <i class="fa fa-instagram">   </i> </a> </li>
+                        <li> <a href="https://api.whatsapp.com/send?phone=s5511953769139&text=sua%20mensagem"> <i class="fa fa-whatsapp"></i><i class="fa fa-whatsapp"></i> </a> </li>
+                    </ul>
+                    
+                </div>
+                <p class="pull-left"> Copyright ©  Virtual ShopCase </p>
+            
+            </div>
+            <!--/.row--> 
+        </div>
+        <!--/.container--> 
+    </div>
+    <!--/.footer-->
+    
+  
+      </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
           <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.4/dist/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
       </div>
