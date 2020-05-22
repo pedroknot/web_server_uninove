@@ -59,6 +59,11 @@ def sobre():
 def download_app():
     return render_template('download_app.html')
 
+@app.route("/promocoes")
+def promocoes():
+    return render_template('promocoes.html')
+
+
 # @app.route("/teste/<info>")
 # @app.route("/teste", defaults={"info":None})
 # def teste(info):

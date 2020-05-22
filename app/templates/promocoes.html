@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ super() }} - Promocoes{% endblock %}
+
+{% block content %}   
+    <main role="main">
+    
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <div class="container"> 
+           <!--Apresentação -->       
+            <h1 class="display-3">PROMOÇÕES   </h1>   
+		       
+          <p>  A Virtual ShopCase oferece promoções incríveis para toda a família. Confira abaixo!</p>             
+        </div>
+        
+      </div>
+    
+      <div class="container">
+        <!-- Example row of columns -->
+        <div class="promocoes">
+        <div class="row justify-content-md-center"> 
+        	<div class="col-6">
+              <img src="../static/img/promo.jpeg" alt="Imagem3" height="400px"/>
+          </div>
+          <div class="col-6"><img src="../static/img/promo2.jpeg" alt="Imagem3" height="400px"/></div>
+        </div>
+      </br>
+        <div class="row justify-content-md-center">
+          <div class="col"><img src="../static/img/promo3.jpeg" alt="Imagem3" height="300px"/></div>
+          <div class="col"><img src="../static/img/promo4.jpeg" alt="Imagem3" height="300px"/></div>
+          <div class="col"><img src="../static/img/promo5.jpeg" alt="Imagem3" height="300px"/></div>
+        </div>
+      </br>
+        <div class="row justify-content-md-center">
+          <div class="col"><img src="../static/img/promo6.jpeg" alt="Imagem3" height="350px"/></div>
+          <div class="col"><img src="../static/img/promo6.jpeg" alt="Imagem3" height="350px"/></div>
+        </div>
+      </br>
+        <div class="row justify-content-md-center">
+          <img src="../static/img/promo8.jpeg" alt="Imagem3" height="500px"/>
+        </div>
+      </div>
+    </div>
+  </br>
+</main>
+{% endblock %}
