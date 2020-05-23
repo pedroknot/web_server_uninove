@@ -41,29 +41,45 @@ class User(db.Model):
         return "<User %r>" % self.username
 
 
-class Post(db.Model):
-    __tablename__ = "posts"
+# class Post(db.Model):
+#     __tablename__ = "posts"
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     content = db.Column(db.Text)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+#     user = db.relationship('User', foreign_keys=user_id)
+
+#     def __init__(self, content, user_id):
+#         self.content = content
+#         self.user_id = user_id
+
+#     def __repr__(self):
+#         return "<Post %r>" % self.id
+
+
+# class Follow(db.Model):
+#     tablename = "follow"
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
+#     follower_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+#     user = db.relationship('User', foreign_keys=follower_id)
+
+
+class Produtos(db.Model):
+    __tablename__ = "produtos"
 
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    nome_produto = db.Column(db.Text)
+    preco = db.Column(db.Float)
+    categoria_produto = db.Column(db.Text)
 
-    user = db.relationship('User', foreign_keys=user_id)
-
-    def __init__(self, content, user_id):
-        self.content = content
-        self.user_id = user_id
+    def __init__(self, nome_produto, preco, categoria_produto):
+        self.nome_produto = nome_produto
+        self.preco = preco
+        self.categoria_produto = categoria_produto
 
     def __repr__(self):
-        return "<Post %r>" % self.id
-
-
-class Follow(db.Model):
-    tablename = "follow"
-
-    id = db.Column(db.Integer, primary_key=True)
-    id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
-    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    user = db.relationship('User', foreign_keys=follower_id)
-
+        return "<Produto %r>" % self.id
