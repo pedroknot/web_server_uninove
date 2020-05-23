@@ -45,37 +45,25 @@
     </div>
   </nav>
   <br><br><br>
-  
+ 
   <table id="minhaTabela">
     <thead>
       <tr>
-        <th>TESTE Nome</th>
-        <th>TESTE E-mail</th>
-        <th>TESTE Telefone</th>
-        <th>TESTE Ação</th>
+        <th>Produto</th>
+        <th>Preco</th>
+        <th>Categoria</th>
+        <th>Ação</th>
       </tr>
     </thead>
     <tbody>
-        {% for i in range(30) %}
+      {%for produto in produtos.values()%} 
       <tr>
-        <td>Vinicius Moura</td>
-        <td>viniciusmouramail@gmail.com</td>
-        <td>49 12345-68791</td>
+        <td>{{produto['produto']}}</td>
+        <td>$ {{produto['preco']}}</td>
+        <td>{{produto['categoria']}}</td>
         <td><a href="">Deletar</a></td>
       </tr>
-      {% endfor %}
-      <tr>
-        <td>José Andrade</td>
-        <td>joseandrade@gmail.com</td>
-        <td>32 9875-68791</td>
-        <td><a href="">Deletar</a></td>
-      </tr>
-      <tr>
-        <td>Rodrigo Costa</td>
-        <td>rodrigocosta@gmail.com</td>
-        <td>32 4564-68791</td>
-        <td><a href="">Deletar</a></td>
-      </tr>
+      {%endfor%} 
     </tbody>
   </table>
   
