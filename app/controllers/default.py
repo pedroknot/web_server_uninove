@@ -68,8 +68,16 @@ def download_app():
 def promocoes():
     return render_template('promocoes.html')
 
-@app.route("/storage/", methods=["GET"])
+@app.route("/storage/", methods=["GET","POST"])
 def storage():
+    nome_produto = request.form.get('nome')
+    preco = request.form.get('preco')
+    categoria_produto = request.form.get('categoria')
+    if nome_produto or preco or categoria_produto != None:
+        i = Produtos(nome_produto, preco, categoria_produto)
+        db.session.add(i)
+        db.session.commit()
+        return redirect(url_for("storage"))
     produtos = Produtos.query.all()
     res = {}
     for produto in produtos:
@@ -79,8 +87,8 @@ def storage():
             'categoria': produto.categoria_produto
         }
     return jsonify(res)
-
-
+    
+        
 
 # @app.route("/teste/<info>")
 # @app.route("/teste", defaults={"info":None})
