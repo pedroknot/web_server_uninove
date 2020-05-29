@@ -1,5 +1,14 @@
-# web_server_uninove
-Projeto uninove 2020
+### web_server_elasctic
+
+### apagando containers
+docker container rm -f $(docker ps -qa)
+
+### gerando imagem
+docker build -t pedroknot/elastic_project .
+
+### subindo container
+docker run -d -p 5000:5000 --name elasitc_project_container pedroknot/elastic_project
+
 
 # pip freeze > requirements.txt
 # pip install -r requirements.txt
