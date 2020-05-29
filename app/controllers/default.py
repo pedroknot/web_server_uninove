@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, jsonify, request
 from flask_login import login_user, logout_user
-from app import app, db, lm
+from app import app, db, lm, es
 
 from app.models.forms import LoginForm
 from app.models.tables import User, Produtos
@@ -19,25 +19,25 @@ def load_user(id):
     return User.query.filter_by(id=id).first()
 
 
-@app.route("/"+str(b64encode(b"/home/")))# Decorator onde é passado a rota
-def index():
-    return render_template('index.html')
+# @app.route("/"+str(b64encode(b"/home/")))# Decorator onde é passado a rota
+# def index():
+#     return render_template('index.html')
 
-@app.route("/", methods=["GET", "POST"])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user and user.password == form.password.data:
-            login_user(user)
-            flash("Logged in.")
-            return redirect(url_for("index"))
-        else:
-            flash("Invalid login.")
-    else:
-        print('ERROR')
-    return render_template('login.html',
-                            form=form)
+# @app.route("/", methods=["GET", "POST"])
+# def login():
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#         user = User.query.filter_by(username=form.username.data).first()
+#         if user and user.password == form.password.data:
+#             login_user(user)
+#             flash("Logged in.")
+#             return redirect(url_for("index"))
+#         else:
+#             flash("Invalid login.")
+#     else:
+#         print('ERROR')
+#     return render_template('login.html',
+#                             form=form)
 
 @app.route("/"+str(b64encode(b"/logout")))
 def logout():
@@ -87,8 +87,63 @@ def storage():
             'categoria': produto.categoria_produto
         }
     return jsonify(res)
+
+
+@app.route('/', methods=['GET'])
+def index():
+    results = es.get(index='produto', doc_type='_doc', id='85234')
+    return jsonify(results['_source'])
+
+
+@app.route('/insert_data', methods=['POST'])
+def insert_data():
+    id = request.form['id']
+    carro = request.form['carro']
+    preco = request.form['preco']
+
+    body = {
+        'id': id,
+        'carro': carro,
+        'preco': preco
+    }
+
+    result = es.index(index='teste', doc_type='_doc', id=id, body=body)
+
+    return jsonify(result)
+
+
+@app.route('/search', methods=['GET'])
+def search():
+
+    body = {
+        "query": {
+            "match_all":{}
+        }
+    }
+
+    res = es.search(index="produto", body=body)
+
+    return jsonify(res['hits']['hits'])
+
+
+@app.route('/search_term', methods=['GET'])
+def search_term():
+
+    body ={
+          "size": 0,
+  "aggs": {
+    "categorias": {
+      "terms": {
+        "field": "categoriaNome.keyword",
+        "size": 999
+      }
+    }
+  }
+
+    }
+    res = es.search(index="produto", body=body)
     
-        
+    return jsonify(res['aggregations']['categorias']['buckets'])
 
 # @app.route("/teste/<info>")
 # @app.route("/teste", defaults={"info":None})
