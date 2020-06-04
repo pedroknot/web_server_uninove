@@ -13,7 +13,8 @@ docker run -d -p 5000:5000 --name elasitc_project_container pedroknot/elastic_pr
 curl -H "Content-Type: application/json" -X GET http://localhost:5000/storage/
 r = requests.post('http://localhost:5000/search', data={'keyword': 'mustangue'})
 
-
+### matando elasticsearhc
+pkill -f elasticsearch
 
 ### pip freeze > requirements.txt
 ### pip install -r requirements.txt
@@ -31,3 +32,6 @@ https://drive.google.com/drive/u/1/folders/1l25mC670RQ6PYP_xd3B3EIY9noy1jMNV
 
 ### Fonte elasticsearch
 https://dev.to/aligoren/using-elasticsearch-with-python-and-flask-2i0e
+
+### Fonte semantix elasticsearch
+https://semantix.com.br/como-criar-um-dockerfile-para-elasticsearch/

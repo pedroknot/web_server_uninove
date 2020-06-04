@@ -6,7 +6,7 @@ from flask_login import LoginManager
 
 from elasticsearch import Elasticsearch
 
-es = Elasticsearch()
+
 app = Flask(__name__)
 app.config.from_object('config') # Passando configurações para o Flask
 
@@ -19,6 +19,8 @@ manager.add_command('db', MigrateCommand)
 lm = LoginManager()
 lm.init_app(app)
 
+es = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
+        if app.config['ELASTICSEARCH_URL'] else None
 
 
 from app.models import tables, forms

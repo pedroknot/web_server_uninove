@@ -19,25 +19,25 @@ def load_user(id):
     return User.query.filter_by(id=id).first()
 
 
-# @app.route("/"+str(b64encode(b"/home/")))# Decorator onde é passado a rota
-# def index():
-#     return render_template('index.html')
+@app.route("/"+str(b64encode(b"/home/")))# Decorator onde é passado a rota
+def index():
+    return render_template('index.html')
 
-# @app.route("/", methods=["GET", "POST"])
-# def login():
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#         user = User.query.filter_by(username=form.username.data).first()
-#         if user and user.password == form.password.data:
-#             login_user(user)
-#             flash("Logged in.")
-#             return redirect(url_for("index"))
-#         else:
-#             flash("Invalid login.")
-#     else:
-#         print('ERROR')
-#     return render_template('login.html',
-#                             form=form)
+@app.route("/", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.password == form.password.data:
+            login_user(user)
+            flash("Logged in.")
+            return redirect(url_for("index"))
+        else:
+            flash("Invalid login.")
+    else:
+        print('ERROR')
+    return render_template('login.html',
+                            form=form)
 
 @app.route("/"+str(b64encode(b"/logout")))
 def logout():
@@ -89,10 +89,11 @@ def storage():
     return jsonify(res)
 
 
-@app.route('/', methods=['GET'])
-def index():
-    results = es.get(index='produto', doc_type='_doc', id='85234')
-    return jsonify(results['_source'])
+# @app.route('/', methods=['GET'])
+# def index():
+#     results = es.get(index='produto', doc_type='_doc', id='85234')
+#     return jsonify(results['_source'])
+
 
 
 @app.route('/insert_data', methods=['POST'])
@@ -121,9 +122,23 @@ def search():
         }
     }
 
-    res = es.search(index="produto", body=body)
+    res = es.search(index="mercado", body=body)
 
-    return jsonify(res['hits']['hits'])
+    resp = []
+    for produtos in res['hits']['hits']:
+        resp.append(produtos['_source'])
+    return jsonify(resp)
+
+
+
+@app.route('/return_produtos')
+def return_produtos():
+    port = int(os.environ.get("PORT", 5000))
+    produtos = requests.get(f"http://0.0.0.0:{port}/search").json()
+    return render_template('produtos_elastic.html',
+                            produtos=produtos)
+
+
 
 
 @app.route('/search_term', methods=['GET'])
