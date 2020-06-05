@@ -88,7 +88,7 @@ def storage():
         }
     return jsonify(res)
     
-@app.route("/storage_item")
+@app.route("/storage_item/")
 def storage_item():
     produtos = {"id_produto":"1", "id_empresa":"1", "nome_produto":"TV 60", "descricao":"Tela plana HBO","imagem":"0", "preco":"2332", "quantidade":"10", "promocao":"0"}
     res = []
@@ -96,7 +96,7 @@ def storage_item():
     res.append(produtos)
     return jsonify(res)
 
-@app.route("/storage_itens")
+@app.route("/storage_itens/")
 def storage_itens():
     produto_um = {"id_produto":"1", "id_empresa":"1", "nome_produto":"TV 60", "descricao":"Tela plana HBO","imagem":"0", "preco":"2332", "quantidade":"10", "promocao":"0"}
     produto_dois = {"id_produto":"2", "id_empresa":"2", "nome_produto":"CARRO", "descricao":"Tela plana HBO","imagem":"0", "preco":"2332", "quantidade":"10", "promocao":"0"}
