@@ -19,11 +19,11 @@ def load_user(id):
     return User.query.filter_by(id=id).first()
 
 
-@app.route("/"+str(b64encode(b"/home/")))# Decorator onde é passado a rota
+@app.route("/")# Decorator onde é passado a rota
 def index():
     return render_template('index.html')
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/home/", methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -87,13 +87,14 @@ def storage():
             'categoria': produto.categoria_produto
         }
     return jsonify(res)
-    
-@app.route("/storage_item/")
+
+@app.route("/")
+@app.route("/storage_item/", methods=["GET", "POST"])
 def storage_item():
     produtos = {"id_produto":"1", "id_empresa":"1", "nome_produto":"TV 60", "descricao":"Tela plana HBO","imagem":"0", "preco":"2332", "quantidade":"10", "promocao":"0"}
     return jsonify(produtos)
 
-@app.route("/storage_itens/")
+@app.route("/storage_itens/", methods=["GET", "POST"])
 def storage_itens():
     produto_um = {"id_produto":"1", "id_empresa":"1", "nome_produto":"TV 60", "descricao":"Tela plana HBO","imagem":"0", "preco":"2332", "quantidade":"10", "promocao":"0"}
     produto_dois = {"id_produto":"2", "id_empresa":"2", "nome_produto":"CARRO", "descricao":"Tela plana HBO","imagem":"0", "preco":"2332", "quantidade":"10", "promocao":"0"}
