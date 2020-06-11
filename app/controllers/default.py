@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user
 from app import app, db, lm
 
 from app.models.forms import LoginForm
-from app.models.tables import User, Produtos
+from app.models.tables import User, Produtos, ProdutosApk, Empresa, UsersApk, Cargos
 
 from base64 import b64encode
 import requests
@@ -88,7 +88,6 @@ def storage():
         }
     return jsonify(res)
 
-@app.route("/")
 @app.route("/storage_item/", methods=["GET", "POST"])
 def storage_item():
     produtos = {"id_produto":"1", "id_empresa":"1", "nome_produto":"TV 60", "descricao":"Tela plana HBO","imagem":"0", "preco":"2332", "quantidade":"10", "promocao":"0"}
@@ -104,6 +103,74 @@ def storage_itens():
 
     return jsonify(produto_um, produto_dois, produto_tres) 
         
+@app.route("/get_produtos/", methods=["GET", "POST"])
+def get_produtos():
+    produtos = ProdutosApk.query.all()
+    res = {}
+    for produto in produtos:
+        res = {
+            'id_produto': produto.id_produto,
+            'id_empresa': produto.id_empresa,
+            'nome_produto': produto.nome_produto,
+            'descricao': produto.descricao,
+            'imagem': produto.imagem,
+            'preco': produto.preco,
+            'quantidade': produto.quantidade,
+            'promocao': produto.promocao
+        }
+    return jsonify(res)
+
+
+@app.route("/get_empresas/", methods=["GET", "POST"])
+def get_empresas():
+    empresas = Empresa.query.all()
+    res = {}
+    for empresa in empresas:
+        res = {
+            'id_empresa': empresa.id_empresa,
+            'nome_empresa': empresa.nome_empresa,
+            'cnpj': empresa.cnpj,
+            'email': empresa.email
+        }
+    return jsonify(res)
+
+
+@app.route("/get_usuarios/", methods=["GET", "POST"])
+def get_usuarios():
+    usuarios = UsersApk.query.all()
+    res = {}
+    for usuario in usuarios:
+        res = {
+            'id_usuario': usuario.id_usuario,
+            'id_cargo': usuario.id_cargo,
+            'id_empresa': usuario.id_empresa,
+            'nome_cliente': usuario.nome_cliente,
+            'cpf': usuario.cpf,
+            'estado': usuario.estado,
+            'pais': usuario.pais,
+            'data_nascimento': usuario.data_nascimento,
+            'celular': usuario.celular,
+            'email': usuario.email,
+            'instagram': usuario.instagram,
+            'facebook': usuario.facebook,
+            'whatsapp': usuario.whatsapp,
+            'senha': usuario.senha
+        }
+    return jsonify(res)
+
+
+@app.route("/get_cargos/", methods=["GET", "POST"])
+def get_cargos():
+    cargos = Cargos.query.all()
+    res = {}
+    for cargo in cargos:
+        res = {
+            'id_cargo': cargo.id_cargo,
+            'id_empresa': cargo.id_empresa,
+            'cnnome_cargopj': cargo.nome_cargo
+        }
+    return jsonify(res)
+
 
 # @app.route("/teste/<info>")
 # @app.route("/teste", defaults={"info":None})
