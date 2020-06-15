@@ -7,6 +7,7 @@ from app.models.tables import User, Produtos, ProdutosApk, Empresa, UsersApk, Ca
 
 from base64 import b64encode
 import requests
+import flask
 import os
 
 """
@@ -105,20 +106,38 @@ def storage_itens():
         
 @app.route("/get_produtos/", methods=["GET", "POST"])
 def get_produtos():
-    produtos = ProdutosApk.query.all()
-    res = []
-    for produto in produtos:
-        res.append({
-            'id_produto': produto.id_produto,
-            'id_empresa': produto.id_empresa,
-            'nome_produto': produto.nome_produto,
-            'descricao': produto.descricao,
-            'imagem': produto.imagem,
-            'preco': produto.preco,
-            'quantidade': produto.quantidade,
-            'promocao': produto.promocao
-        })
-    return jsonify(res)
+    if flask.request.method == 'POST':
+        try:
+            id_empresa = request.form.get('id_empresa')
+            nome_produto = request.form.get('nome_produto')
+            descricao = request.form.get('descricao')
+            imagem = request.form.get('imagem')
+            preco = request.form.get('preco')
+            quantidade = request.form.get('quantidade')
+            promocao = request.form.get('promocao')
+
+            insert = ProdutosApk(nome_produto, descricao, imagem, preco, quantidade, promocao, id_empresa)
+            db.session.add(insert)
+            db.session.commit()
+            return "Produto inserido com sucesso!"
+        except Exception as ex:
+            return f"Erro: {ex}"        
+
+    else:
+        produtos = ProdutosApk.query.all()
+        res = []
+        for produto in produtos:
+            res.append({
+                'id_produto': produto.id_produto,
+                'id_empresa': produto.id_empresa,
+                'nome_produto': produto.nome_produto,
+                'descricao': produto.descricao,
+                'imagem': produto.imagem,
+                'preco': produto.preco,
+                'quantidade': produto.quantidade,
+                'promocao': produto.promocao
+            })
+        return jsonify(res)
 
 
 @app.route("/get_empresas/", methods=["GET", "POST"])
