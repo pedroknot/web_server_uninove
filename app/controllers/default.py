@@ -106,9 +106,9 @@ def storage_itens():
 @app.route("/get_produtos/", methods=["GET", "POST"])
 def get_produtos():
     produtos = ProdutosApk.query.all()
-    res = {}
+    res = []
     for produto in produtos:
-        res = {
+        res.append({
             'id_produto': produto.id_produto,
             'id_empresa': produto.id_empresa,
             'nome_produto': produto.nome_produto,
@@ -117,30 +117,30 @@ def get_produtos():
             'preco': produto.preco,
             'quantidade': produto.quantidade,
             'promocao': produto.promocao
-        }
+        })
     return jsonify(res)
 
 
 @app.route("/get_empresas/", methods=["GET", "POST"])
 def get_empresas():
     empresas = Empresa.query.all()
-    res = {}
+    res = []
     for empresa in empresas:
-        res = {
+        res.append({
             'id_empresa': empresa.id_empresa,
             'nome_empresa': empresa.nome_empresa,
             'cnpj': empresa.cnpj,
             'email': empresa.email
-        }
+        })
     return jsonify(res)
 
 
 @app.route("/get_usuarios/", methods=["GET", "POST"])
 def get_usuarios():
     usuarios = UsersApk.query.all()
-    res = {}
+    res = []
     for usuario in usuarios:
-        res = {
+        res.append({
             'id_usuario': usuario.id_usuario,
             'id_cargo': usuario.id_cargo,
             'id_empresa': usuario.id_empresa,
@@ -155,20 +155,20 @@ def get_usuarios():
             'facebook': usuario.facebook,
             'whatsapp': usuario.whatsapp,
             'senha': usuario.senha
-        }
+        })
     return jsonify(res)
 
 
 @app.route("/get_cargos/", methods=["GET", "POST"])
 def get_cargos():
     cargos = Cargos.query.all()
-    res = {}
+    res = []
     for cargo in cargos:
-        res = {
+        res.append({
             'id_cargo': cargo.id_cargo,
             'id_empresa': cargo.id_empresa,
-            'cnnome_cargopj': cargo.nome_cargo
-        }
+            'nome_cargo': cargo.nome_cargo
+        })
     return jsonify(res)
 
 
