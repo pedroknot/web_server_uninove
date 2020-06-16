@@ -101,8 +101,8 @@ def storage_itens():
     produto_tres = {"id_produto":"3", "id_empresa":"3", "nome_produto":"CASA", "descricao":"Tela plana HBO","imagem":"0", "preco":"2332", "quantidade":"10", "promocao":"0"}
 
     return jsonify(produto_um, produto_dois, produto_tres) 
-       
-        
+
+
 @app.route("/get_produtos/", methods=["GET", "POST"])
 def get_produtos():
     produtos = ProdutosApk.query.all()
@@ -123,13 +123,14 @@ def get_produtos():
 @app.route("/insert_produtos/", methods=["GET", "POST"])
 def insert_produtos():
         try:
-            id_empresa = request.form.get('id_empresa')
-            nome_produto = request.form.get('nome_produto')
-            descricao = request.form.get('descricao')
-            imagem = request.form.get('imagem')
-            preco = request.form.get('preco')
-            quantidade = request.form.get('quantidade')
-            promocao = request.form.get('promocao')
+            produtos = request.get_json()
+            id_empresa = produtos['id_empresa']
+            nome_produto = produtos['nome_produto']
+            descricao = produtos['descricao']
+            imagem = produtos['imagem']
+            preco = produtos['preco']
+            quantidade = produtos['quantidade']
+            promocao = produtos['promocao']
 
             insert = ProdutosApk(nome_produto, descricao, imagem, preco, quantidade, promocao, id_empresa)
             db.session.add(insert)
