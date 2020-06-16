@@ -100,13 +100,28 @@ def storage_itens():
     produto_dois = {"id_produto":"2", "id_empresa":"2", "nome_produto":"CARRO", "descricao":"Tela plana HBO","imagem":"0", "preco":"2332", "quantidade":"10", "promocao":"0"}
     produto_tres = {"id_produto":"3", "id_empresa":"3", "nome_produto":"CASA", "descricao":"Tela plana HBO","imagem":"0", "preco":"2332", "quantidade":"10", "promocao":"0"}
 
-    
-
     return jsonify(produto_um, produto_dois, produto_tres) 
+       
         
 @app.route("/get_produtos/", methods=["GET", "POST"])
 def get_produtos():
-    if flask.request.method == 'POST':
+    produtos = ProdutosApk.query.all()
+    res = []
+    for produto in produtos:
+        res.append({
+            'id_produto': produto.id_produto,
+            'id_empresa': produto.id_empresa,
+            'nome_produto': produto.nome_produto,
+            'descricao': produto.descricao,
+            'imagem': produto.imagem,
+            'preco': produto.preco,
+            'quantidade': produto.quantidade,
+            'promocao': produto.promocao
+        })
+    return jsonify(res)
+
+@app.route("/insert_produtos/", methods=["GET", "POST"])
+def insert_produtos():
         try:
             id_empresa = request.form.get('id_empresa')
             nome_produto = request.form.get('nome_produto')
@@ -121,23 +136,7 @@ def get_produtos():
             db.session.commit()
             return "Produto inserido com sucesso!"
         except Exception as ex:
-            return f"Erro: {ex}"        
-
-    else:
-        produtos = ProdutosApk.query.all()
-        res = []
-        for produto in produtos:
-            res.append({
-                'id_produto': produto.id_produto,
-                'id_empresa': produto.id_empresa,
-                'nome_produto': produto.nome_produto,
-                'descricao': produto.descricao,
-                'imagem': produto.imagem,
-                'preco': produto.preco,
-                'quantidade': produto.quantidade,
-                'promocao': produto.promocao
-            })
-        return jsonify(res)
+            return f"Erro: {ex}"  
 
 
 @app.route("/get_empresas/", methods=["GET", "POST"])
