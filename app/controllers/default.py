@@ -103,41 +103,83 @@ def storage_itens():
     return jsonify(produto_um, produto_dois, produto_tres) 
 
 
-@app.route("/get_produtos/", methods=["GET", "POST"])
+@app.route("/produtos/", methods=["GET", "POST"])
 def get_produtos():
-    produtos = ProdutosApk.query.all()
-    res = []
-    for produto in produtos:
-        res.append({
-            'id_produto': produto.id_produto,
-            'id_empresa': produto.id_empresa,
-            'nome_produto': produto.nome_produto,
-            'descricao': produto.descricao,
-            'imagem': produto.imagem,
-            'preco': produto.preco,
-            'quantidade': produto.quantidade,
-            'promocao': produto.promocao
-        })
-    return jsonify(res)
+    if request.method == 'POST':
+        produtos = request.get_json()
+        id_produto = produtos['id_produto']
+        id_empresa = produtos['id_empresa']
+        nome_produto = produtos['nome_produto']
+        descricao = produtos['descricao']
+        imagem = produtos['imagem']
+        preco = produtos['preco']
+        quantidade = produtos['quantidade']
+        promocao = produtos['promocao']
 
-@app.route("/insert_produtos/", methods=["GET", "POST"])
-def insert_produtos():
-        try:
-            produtos = request.get_json()
-            id_empresa = produtos['id_empresa']
-            nome_produto = produtos['nome_produto']
-            descricao = produtos['descricao']
-            imagem = produtos['imagem']
-            preco = produtos['preco']
-            quantidade = produtos['quantidade']
-            promocao = produtos['promocao']
+        if produtos['type'] == "insert":
+            try:
+                insert = ProdutosApk(nome_produto, descricao, imagem, preco, quantidade, promocao, id_empresa)
+                db.session.add(insert)
+                db.session.commit()
 
-            insert = ProdutosApk(nome_produto, descricao, imagem, preco, quantidade, promocao, id_empresa)
-            db.session.add(insert)
-            db.session.commit()
-            return "Produto inserido com sucesso!"
-        except Exception as ex:
-            return f"Erro: {ex}"  
+                data = [{'id_empresa':id_empresa, 'id_produto':id_produto, 'nome_produto':nome_produto, 'type':produtos['type'],
+                        'descricao':descricao, 'imagem':imagem, 'preco':preco, 'quantidade':quantidade, 'promocao':promocao }]
+                return jsonify(data)
+            except Exception as ex:
+                return f"ERRO: {ex}"  
+
+    else:
+        produtos = ProdutosApk.query.all()
+        res = []
+        for produto in produtos:
+            res.append({
+                'id_produto': produto.id_produto,
+                'id_empresa': produto.id_empresa,
+                'nome_produto': produto.nome_produto,
+                'descricao': produto.descricao,
+                'imagem': produto.imagem,
+                'preco': produto.preco,
+                'quantidade': produto.quantidade,
+                'promocao': produto.promocao
+            })
+        return jsonify(res)
+
+
+# @app.route("/get_produtos/", methods=["GET", "POST"])
+# def get_produtos():
+#     produtos = ProdutosApk.query.all()
+#     res = []
+#     for produto in produtos:
+#         res.append({
+#             'id_produto': produto.id_produto,
+#             'id_empresa': produto.id_empresa,
+#             'nome_produto': produto.nome_produto,
+#             'descricao': produto.descricao,
+#             'imagem': produto.imagem,
+#             'preco': produto.preco,
+#             'quantidade': produto.quantidade,
+#             'promocao': produto.promocao
+#         })
+#     return jsonify(res)
+
+# @app.route("/insert_produtos/", methods=["GET", "POST"])
+# def insert_produtos():
+#         try:
+#             produtos = request.get_json()
+#             id_empresa = produtos['id_empresa']
+#             nome_produto = produtos['nome_produto']
+#             descricao = produtos['descricao']
+#             imagem = produtos['imagem']
+#             preco = produtos['preco']
+#             quantidade = produtos['quantidade']
+#             promocao = produtos['promocao']
+
+#             insert = ProdutosApk(nome_produto, descricao, imagem, preco, quantidade, promocao, id_empresa)
+#             db.session.add(insert)
+#             db.session.commit()
+#             return "Produto inserido com sucesso!"
+#         except Exception as ex:
+#             return f"Erro: {ex}"  
 
 
 @app.route("/get_empresas/", methods=["GET", "POST"])
