@@ -56,7 +56,7 @@ def logout():
 @app.route("/"+str(b64encode(b"/produtos")))
 def produtos():
     port = int(os.environ.get("PORT", 5000))
-    produtos = requests.get(f"http://0.0.0.0:{port}/produtos/").json()
+    produtos = requests.get(f"http://0.0.0.0:{port}/get_produtos/").json()
     return render_template('produtos.html',
                             produtos=produtos)
 
@@ -96,68 +96,70 @@ def storage():
         }
     return jsonify(res)
 
+@app.route("/get_produtos/", methods=["GET", "POST"])
+def get_produtos():
+
+    produtos = ProdutosApk.query.all()
+    res = []
+    for produto in produtos:
+        res.append({
+            'id_produto': produto.id_produto,
+            'id_empresa': produto.id_empresa,
+            'nome_produto': produto.nome_produto,
+            'descricao': produto.descricao,
+            'imagem': produto.imagem,
+            'preco': produto.preco,
+            'quantidade': produto.quantidade,
+            'promocao': produto.promocao
+        })
+    return jsonify(res)
+
 
 @app.route("/produtos/", methods=["GET", "POST"])
-def get_produtos():
-    if request.method == 'POST':
-        produtos = request.get_json()
-        id_produto = produtos['id_produto']
-        id_empresa = produtos['id_empresa']
-        nome_produto = produtos['nome_produto']
-        descricao = produtos['descricao']
-        imagem = produtos['imagem']
-        preco = produtos['preco']
-        quantidade = produtos['quantidade']
-        promocao = produtos['promocao']
+def produtos_insert():
 
-        data = [{'id_empresa':id_empresa, 'id_produto':id_produto, 'nome_produto':nome_produto, 'type':produtos['type'],
-                'descricao':descricao, 'imagem':imagem, 'preco':preco, 'quantidade':quantidade, 'promocao':promocao }]
+    produtos = request.get_json()
+    id_produto = produtos['id_produto']
+    id_empresa = produtos['id_empresa']
+    nome_produto = produtos['nome_produto']
+    descricao = produtos['descricao']
+    imagem = produtos['imagem']
+    preco = produtos['preco']
+    quantidade = produtos['quantidade']
+    promocao = produtos['promocao']
 
-        if produtos['type'] == "insert":
-            try:
-                insert = ProdutosApk(nome_produto, descricao, imagem, preco, quantidade, promocao, id_empresa)
-                db.session.add(insert)
-                db.session.commit()
+    data = [{'id_empresa':id_empresa, 'id_produto':id_produto, 'nome_produto':nome_produto, 'type':produtos['type'],
+            'descricao':descricao, 'imagem':imagem, 'preco':preco, 'quantidade':quantidade, 'promocao':promocao }]
 
-                return jsonify(data)
-            except Exception as ex:
-                return f"ERRO: {ex}" 
+    if produtos['type'] == "insert":
+        try:
+            insert = ProdutosApk(nome_produto, descricao, imagem, preco, quantidade, promocao, id_empresa)
+            db.session.add(insert)
+            db.session.commit()
+
+            return jsonify(data)
+        except Exception as ex:
+            return f"ERRO: {ex}" 
+    
+    elif produtos['type'] == "update":
+        try:
+            ProdutosApk.query.filter_by(id_produto=id_produto).update(dict(nome_produto=nome_produto, descricao=descricao, 
+            imagem=imagem, quantidade=quantidade, promocao=promocao, id_empresa=id_empresa))
+
+            db.session.commit()
+
+            return jsonify(data)
+        except Exception as ex:
+            return f"ERRO: {ex}"
         
-        elif produtos['type'] == "update":
-            try:
-                ProdutosApk.query.filter_by(id_produto=id_produto).update(dict(nome_produto=nome_produto, descricao=descricao, 
-                imagem=imagem, quantidade=quantidade, promocao=promocao, id_empresa=id_empresa))
+    elif produtos['type'] == "delete":
+        try:
+            ProdutosApk.query.filter_by(id_produto=id_produto).delete()
+            db.session.commit()
 
-                db.session.commit()
-
-                return jsonify(data)
-            except Exception as ex:
-                return f"ERRO: {ex}"
-            
-        elif produtos['type'] == "delete":
-            try:
-                ProdutosApk.query.filter_by(id_produto=id_produto).delete()
-                db.session.commit()
-
-                return jsonify(data)
-            except Exception as ex:
-                return f"ERRO: {ex}"        
-
-    else:
-        produtos = ProdutosApk.query.all()
-        res = []
-        for produto in produtos:
-            res.append({
-                'id_produto': produto.id_produto,
-                'id_empresa': produto.id_empresa,
-                'nome_produto': produto.nome_produto,
-                'descricao': produto.descricao,
-                'imagem': produto.imagem,
-                'preco': produto.preco,
-                'quantidade': produto.quantidade,
-                'promocao': produto.promocao
-            })
-        return jsonify(res)
+            return jsonify(data)
+        except Exception as ex:
+            return f"ERRO: {ex}"        
 
 
 @app.route("/empresas/", methods=["GET", "POST"])
