@@ -267,10 +267,10 @@ def usuarios():
     whatsapp = usuarios['whatsapp']
     senha = usuarios['senha']
 
-    data = [{"id_usuario":id_usuario, "id_cargo":id_cargo, "type":usuarios['type'],
-            "id_empresa":id_empresa, "nome_cliente":nome_cliente,"cpf":cpf,"estado":estado,
-            "pais":pais, "data_nascimento":data_nascimento,"celular":celular, "email":email, "instagram":instagram,
-            "facebook":facebook, "whatsapp":whatsapp, "senha":senha}]
+    data = [{'id_usuario':id_usuario, 'id_cargo':id_cargo, 'cidade':cidade,'type':usuarios['type'],
+            'id_empresa':id_empresa, 'nome_cliente':nome_cliente,'cpf':cpf,'estado':estado,
+            'pais':pais, 'data_nascimento':data_nascimento,'celular':celular, 'email':email, 'instagram':instagram,
+            'facebook':facebook, 'whatsapp':whatsapp, 'senha':senha}]
 
     if usuarios['type'] == "insert":
         try:
