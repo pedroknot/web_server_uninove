@@ -50,15 +50,17 @@
       <tr>
         <th>Produto</th>
         <th>Preco</th>
-        <th>Categoria</th>
+        <th>Descricao</th>
+        <th>Imagem</th>
       </tr>
     </thead>
     <tbody>
-      {%for produto in produtos.values()%} 
+      {%for produto in produtos%} 
       <tr>
-        <td>{{produto['produto']}}</td>
+        <td>{{produto['nome_produto']}}</td>
         <td>{{produto['preco']}}</td>
-        <td>{{produto['categoria']}}</td>
+        <td>{{produto['descricao']}}</td>
+        <td><a href={{produto['imagem']}}>Imagem</a></td>
       </tr>
       {%endfor%} 
     </tbody>
