@@ -116,17 +116,38 @@ def get_produtos():
         quantidade = produtos['quantidade']
         promocao = produtos['promocao']
 
+        data = [{'id_empresa':id_empresa, 'id_produto':id_produto, 'nome_produto':nome_produto, 'type':produtos['type'],
+                'descricao':descricao, 'imagem':imagem, 'preco':preco, 'quantidade':quantidade, 'promocao':promocao }]
+
         if produtos['type'] == "insert":
             try:
                 insert = ProdutosApk(nome_produto, descricao, imagem, preco, quantidade, promocao, id_empresa)
                 db.session.add(insert)
                 db.session.commit()
 
-                data = [{'id_empresa':id_empresa, 'id_produto':id_produto, 'nome_produto':nome_produto, 'type':produtos['type'],
-                        'descricao':descricao, 'imagem':imagem, 'preco':preco, 'quantidade':quantidade, 'promocao':promocao }]
                 return jsonify(data)
             except Exception as ex:
-                return f"ERRO: {ex}"  
+                return f"ERRO: {ex}" 
+        
+        elif produtos['type'] == "update":
+            try:
+                ProdutosApk.query.filter_by(id_produto=id_produto).update(dict(nome_produto=nome_produto, descricao=descricao, 
+                imagem=imagem, quantidade=quantidade, promocao=promocao, id_empresa=id_empresa))
+
+                db.session.commit()
+
+                return jsonify(data)
+            except Exception as ex:
+                return f"ERRO: {ex}"
+            
+        elif produtos['type'] == "delete":
+            try:
+                ProdutosApk.query.filter_by(id_produto=id_produto).delete()
+                db.session.commit()
+
+                return jsonify(data)
+            except Exception as ex:
+                return f"ERRO: {ex}"        
 
     else:
         produtos = ProdutosApk.query.all()
