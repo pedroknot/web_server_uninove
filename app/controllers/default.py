@@ -162,134 +162,66 @@ def produtos_insert():
             return f"ERRO: {ex}"        
 
 
-@app.route("/empresas/", methods=["GET", "POST"])
+@app.route("/get_empresas/", methods=["GET", "POST"])
 def get_empresas():
-    if request.method == 'POST':
-        empresa = request.get_json()
-        id_empresa = empresa['id_empresa']
-        nome_empresa = empresa['nome_empresa']
-        cnpj = empresa['cnpj']
-        email = empresa['email']
+    empresas = Empresa.query.all()
+    res = []
+    for empresa in empresas:
+        res.append({
+            'id_empresa': empresa.id_empresa,
+            'nome_empresa': empresa.nome_empresa,
+            'cnpj': empresa.cnpj,
+            'email': empresa.email
+        })
+    return jsonify(res)
 
 
-        data = [{'id_empresa':id_empresa, 'nome_empresa':nome_empresa, 'cnpj':cnpj, 'type':empresa['type'],
-                'email':email }]
 
-        if empresa['type'] == "insert":
-            try:
-                insert = Empresa(nome_empresa, cnpj, email)
-                db.session.add(insert)
-                db.session.commit()
-
-                return jsonify(data)
-            except Exception as ex:
-                return f"ERRO: {ex}" 
-
-        elif empresa['type'] == "update":
-            try:
-                Empresa.query.filter_by(id_empresa=id_empresa).update(dict(nome_empresa=nome_empresa, cnpj=cnpj, 
-                email=email))
-                db.session.commit()
-                return jsonify(data)
-
-            except Exception as ex:
-                return f"ERRO: {ex}"
-            
-        elif empresa['type'] == "delete":
-            try:
-                Empresa.query.filter_by(id_empresa=id_empresa).delete()
-                db.session.commit()
-
-                return jsonify(data)
-            except Exception as ex:
-                return f"ERRO: {ex}"    
-
-    else:
-        empresas = Empresa.query.all()
-        res = []
-        for empresa in empresas:
-            res.append({
-                'id_empresa': empresa.id_empresa,
-                'nome_empresa': empresa.nome_empresa,
-                'cnpj': empresa.cnpj,
-                'email': empresa.email
-            })
-        return jsonify(res)
+@app.route("/empresas/", methods=["GET", "POST"])
+def empresas():
+    empresa = request.get_json()
+    id_empresa = empresa['id_empresa']
+    nome_empresa = empresa['nome_empresa']
+    cnpj = empresa['cnpj']
+    email = empresa['email']
 
 
-@app.route("/usuarios/", methods=["GET", "POST"])
+    data = [{'id_empresa':id_empresa, 'nome_empresa':nome_empresa, 'cnpj':cnpj, 'type':empresa['type'],
+            'email':email }]
+
+    if empresa['type'] == "insert":
+        try:
+            insert = Empresa(nome_empresa, cnpj, email)
+            db.session.add(insert)
+            db.session.commit()
+
+            return jsonify(data)
+        except Exception as ex:
+            return f"ERRO: {ex}" 
+
+    elif empresa['type'] == "update":
+        try:
+            Empresa.query.filter_by(id_empresa=id_empresa).update(dict(nome_empresa=nome_empresa, cnpj=cnpj, 
+            email=email))
+            db.session.commit()
+            return jsonify(data)
+
+        except Exception as ex:
+            return f"ERRO: {ex}"
+        
+    elif empresa['type'] == "delete":
+        try:
+            Empresa.query.filter_by(id_empresa=id_empresa).delete()
+            db.session.commit()
+
+            return jsonify(data)
+        except Exception as ex:
+            return f"ERRO: {ex}"
+
+
+
+@app.route("/get_usuarios/", methods=["GET", "POST"])
 def get_usuarios():
-    if request.method == 'POST':
-        usuarios = request.get_json()
-        id_usuario = usuarios['id_usuario']
-        id_cargo = usuarios['id_cargo']
-        id_empresa = usuarios['id_empresa']
-        nome_cliente = usuarios['nome_cliente']
-        cpf = usuarios['cpf']
-        estado = usuarios['estado']
-        cidade = usuarios['cidade']
-        pais = usuarios['pais']
-        data_nascimento = usuarios['data_nascimento']
-        celular = usuarios['celular']
-        numero = usuarios['numero']
-        email = usuarios['email']
-        instagram = usuarios['instagram']
-        facebook = usuarios['facebook']
-        whatsapp = usuarios['whatsapp']
-        senha = usuarios['senha']
-
-        data = [{"id_usuario":id_usuario, "id_cargo":id_cargo, "type":usuarios['type'],
-                "id_empresa":id_empresa, "nome_cliente":nome_cliente,"cpf":cpf,"estado":estado,
-                "pais":pais, "data_nascimento":data_nascimento,"celular":celular, "email":email, "instagram":instagram,
-                "facebook":facebook, "whatsapp":whatsapp, "senha":senha}]
-
-        if usuarios['type'] == "insert":
-            try:
-                insert = UsersApk(nome_cliente, cpf, cidade, estado, pais, numero, data_nascimento, celular, 
-                email, instagram, facebook, whatsapp, senha, id_empresa, id_cargo)
-                db.session.add(insert)
-                db.session.commit()
-
-                return jsonify(data)
-            except Exception as ex:
-                return f"ERRO: {ex}" 
-        
-        elif usuarios['type'] == "update":
-            try:
-                UsersApk.query.filter_by(id_usuario=id_usuario).update(dict(nome_cliente=nome_cliente, cpf=cpf, 
-                cidade=cidade, estado=estado, pais=pais, numero=numero, data_nascimento=data_nascimento, celular=celular,
-                email=email, instagram=instagram, facebook=facebook, whatsapp=whatsapp, senha=senha, id_empresa=id_empresa,
-                id_cargo=id_cargo))
-
-                db.session.commit()
-
-                return jsonify(data)
-            except Exception as ex:
-                return f"ERRO: {ex}"
-            
-        elif usuarios['type'] == "delete":
-            try:
-                UsersApk.query.filter_by(id_usuario=id_usuario).delete()
-                db.session.commit()
-
-                return jsonify(data)
-            except Exception as ex:
-                return f"ERRO: {ex}"
-        
-
-        elif usuarios['type'] == "login":
-            try:
-                user = UsersApk.query.filter_by(id_usuario=id_usuario).first()
-                print(user)
-                data_login = [{"id_usuario":user.id_usuario, "id_cargo":user.id_cargo, "type":usuarios['type'],
-                        "id_empresa":user.id_empresa, "nome_cliente":user.nome_cliente,"cpf":user.cpf,"estado":user.estado,
-                        "pais":user.pais, "data_nascimento":user.data_nascimento,"celular":user.celular, "email":user.email, "instagram":user.instagram,
-                        "facebook":user.facebook, "whatsapp":user.whatsapp, "senha":user.senha}]
-                return jsonify(data_login)
-            except Exception as ex:
-                return f"ERRO: {ex}"   
-
-    else:
         usuarios = UsersApk.query.all()
         res = []
         for usuario in usuarios:
@@ -314,47 +246,82 @@ def get_usuarios():
         return jsonify(res)
 
 
-@app.route("/cargos/", methods=["GET", "POST"])
+@app.route("/usuarios/", methods=["GET", "POST"])
+def usuarios():
+
+    usuarios = request.get_json()
+    id_usuario = usuarios['id_usuario']
+    id_cargo = usuarios['id_cargo']
+    id_empresa = usuarios['id_empresa']
+    nome_cliente = usuarios['nome_cliente']
+    cpf = usuarios['cpf']
+    estado = usuarios['estado']
+    cidade = usuarios['cidade']
+    pais = usuarios['pais']
+    data_nascimento = usuarios['data_nascimento']
+    celular = usuarios['celular']
+    numero = usuarios['numero']
+    email = usuarios['email']
+    instagram = usuarios['instagram']
+    facebook = usuarios['facebook']
+    whatsapp = usuarios['whatsapp']
+    senha = usuarios['senha']
+
+    data = [{"id_usuario":id_usuario, "id_cargo":id_cargo, "type":usuarios['type'],
+            "id_empresa":id_empresa, "nome_cliente":nome_cliente,"cpf":cpf,"estado":estado,
+            "pais":pais, "data_nascimento":data_nascimento,"celular":celular, "email":email, "instagram":instagram,
+            "facebook":facebook, "whatsapp":whatsapp, "senha":senha}]
+
+    if usuarios['type'] == "insert":
+        try:
+            insert = UsersApk(nome_cliente, cpf, cidade, estado, pais, numero, data_nascimento, celular, 
+            email, instagram, facebook, whatsapp, senha, id_empresa, id_cargo)
+            db.session.add(insert)
+            db.session.commit()
+
+            return jsonify(data)
+        except Exception as ex:
+            return f"ERRO: {ex}" 
+    
+    elif usuarios['type'] == "update":
+        try:
+            UsersApk.query.filter_by(id_usuario=id_usuario).update(dict(nome_cliente=nome_cliente, cpf=cpf, 
+            cidade=cidade, estado=estado, pais=pais, numero=numero, data_nascimento=data_nascimento, celular=celular,
+            email=email, instagram=instagram, facebook=facebook, whatsapp=whatsapp, senha=senha, id_empresa=id_empresa,
+            id_cargo=id_cargo))
+
+            db.session.commit()
+
+            return jsonify(data)
+        except Exception as ex:
+            return f"ERRO: {ex}"
+        
+    elif usuarios['type'] == "delete":
+        try:
+            UsersApk.query.filter_by(id_usuario=id_usuario).delete()
+            db.session.commit()
+
+            return jsonify(data)
+        except Exception as ex:
+            return f"ERRO: {ex}"
+    
+
+    elif usuarios['type'] == "login":
+        try:
+            user = UsersApk.query.filter_by(id_usuario=id_usuario).first()
+            print(user)
+            data_login = [{"id_usuario":user.id_usuario, "id_cargo":user.id_cargo, "type":usuarios['type'],
+                    "id_empresa":user.id_empresa, "nome_cliente":user.nome_cliente,"cpf":user.cpf,"estado":user.estado,
+                    "pais":user.pais, "data_nascimento":user.data_nascimento,"celular":user.celular, "email":user.email, "instagram":user.instagram,
+                    "facebook":user.facebook, "whatsapp":user.whatsapp, "senha":user.senha}]
+            return jsonify(data_login)
+        except Exception as ex:
+            return f"ERRO: {ex}"   
+
+
+
+@app.route("/get_cargos/", methods=["GET", "POST"])
 def get_cargos():
-    if request.method == 'POST':
-        cargos = request.get_json()
-        id_cargo = cargos['id_cargo']
-        id_empresa = cargos['id_empresa']
-        nome_cargo = cargos['nome_cargo']
-
-
-
-        data = [{'id_cargo':id_cargo, 'id_empresa':id_empresa, 'nome_cargo':nome_cargo}]
-
-        if cargos['type'] == "insert":
-            try:
-                insert = Cargos(nome_cargo, id_empresa)
-                db.session.add(insert)
-                db.session.commit()
-
-                return jsonify(data)
-            except Exception as ex:
-                return f"ERRO: {ex}" 
-
-        elif cargos['type'] == "update":
-            try:
-                Cargos.query.filter_by(id_cargo=id_cargo).update(dict(nome_cargo=nome_cargo, id_empresa=id_empresa))
-                db.session.commit()
-                return jsonify(data)
-
-            except Exception as ex:
-                return f"ERRO: {ex}"
-            
-        elif cargos['type'] == "delete":
-            try:
-                Cargos.query.filter_by(id_cargo=id_cargo).delete()
-                db.session.commit()
-
-                return jsonify(data)
-            except Exception as ex:
-                return f"ERRO: {ex}"
-
-    else:
         cargos = Cargos.query.all()
         res = []
         for cargo in cargos:
@@ -364,5 +331,47 @@ def get_cargos():
                 'nome_cargo': cargo.nome_cargo
             })
         return jsonify(res)
+
+
+@app.route("/cargos/", methods=["GET", "POST"])
+def cargos():
+
+    cargos = request.get_json()
+    id_cargo = cargos['id_cargo']
+    id_empresa = cargos['id_empresa']
+    nome_cargo = cargos['nome_cargo']
+
+    data = [{'id_cargo':id_cargo, 'id_empresa':id_empresa, 'nome_cargo':nome_cargo}]
+
+    if cargos['type'] == "insert":
+        try:
+            insert = Cargos(nome_cargo, id_empresa)
+            db.session.add(insert)
+            db.session.commit()
+
+            return jsonify(data)
+        except Exception as ex:
+            return f"ERRO: {ex}" 
+
+    elif cargos['type'] == "update":
+        try:
+            Cargos.query.filter_by(id_cargo=id_cargo).update(dict(nome_cargo=nome_cargo, id_empresa=id_empresa))
+            db.session.commit()
+            return jsonify(data)
+
+        except Exception as ex:
+            return f"ERRO: {ex}"
+        
+    elif cargos['type'] == "delete":
+        try:
+            Cargos.query.filter_by(id_cargo=id_cargo).delete()
+            db.session.commit()
+
+            return jsonify(data)
+        except Exception as ex:
+            return f"ERRO: {ex}"
+
+
+
 
 
