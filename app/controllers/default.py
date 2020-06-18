@@ -256,7 +256,8 @@ def usuarios():
     nome_cliente = usuarios['nome_cliente']
     cpf = usuarios['cpf']
     estado = usuarios['estado']
-    cidade = "MG"
+    cidade2 = usuarios['cidade']
+    print(cidade2)
     pais = usuarios['pais']
     data_nascimento = usuarios['data_nascimento']
     celular = usuarios['celular']
@@ -267,14 +268,14 @@ def usuarios():
     whatsapp = usuarios['whatsapp']
     senha = usuarios['senha']
 
-    data = [{'id_usuario':id_usuario, 'id_cargo':id_cargo, 'cidade':cidade,'type':usuarios['type'],
+    data = [{'id_usuario':id_usuario, 'id_cargo':id_cargo, 'cidade':cidade2,'type':usuarios['type'],
             'id_empresa':id_empresa, 'nome_cliente':nome_cliente,'cpf':cpf,'estado':estado,
             'pais':pais, 'data_nascimento':data_nascimento,'celular':celular, 'email':email, 'instagram':instagram,
             'facebook':facebook, 'whatsapp':whatsapp, 'senha':senha}]
 
     if usuarios['type'] == "insert":
         try:
-            insert = UsersApk(nome_cliente, cpf, cidade, estado, pais, numero, data_nascimento, celular, 
+            insert = UsersApk(nome_cliente, cpf, cidade2, estado, pais, numero, data_nascimento, celular, 
             email, instagram, facebook, whatsapp, senha, id_empresa, id_cargo)
             db.session.add(insert)
             db.session.commit()
@@ -286,7 +287,7 @@ def usuarios():
     elif usuarios['type'] == "update":
         try:
             UsersApk.query.filter_by(id_usuario=id_usuario).update(dict(nome_cliente=nome_cliente, cpf=cpf, 
-            cidade=cidade, estado=estado, pais=pais, numero=numero, data_nascimento=data_nascimento, celular=celular,
+            cidade=cidade2, estado=estado, pais=pais, numero=numero, data_nascimento=data_nascimento, celular=celular,
             email=email, instagram=instagram, facebook=facebook, whatsapp=whatsapp, senha=senha, id_empresa=id_empresa,
             id_cargo=id_cargo))
 
@@ -313,7 +314,7 @@ def usuarios():
             data_login = [{"id_usuario":user.id_usuario, "id_cargo":user.id_cargo, "type":usuarios['type'],
                     "id_empresa":user.id_empresa, "nome_cliente":user.nome_cliente,"cpf":user.cpf,"estado":user.estado,
                     "pais":user.pais, "data_nascimento":user.data_nascimento,"celular":user.celular, "email":user.email, "instagram":user.instagram,
-                    "facebook":user.facebook, "whatsapp":user.whatsapp, "senha":user.senha}]
+                    "facebook":user.facebook, "whatsapp":user.whatsapp, "senha":user.senha, "cidade":user.cidade}]
             return jsonify(data_login)
         except Exception as ex:
             return f"ERRO: {ex}"   
