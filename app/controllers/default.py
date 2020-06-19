@@ -256,8 +256,7 @@ def usuarios():
     nome_cliente = usuarios['nome_cliente']
     cpf = usuarios['cpf']
     estado = usuarios['estado']
-    cidade2 = usuarios['cidade']
-    print(cidade2)
+    cidade = usuarios['cidade']
     pais = usuarios['pais']
     data_nascimento = usuarios['data_nascimento']
     celular = usuarios['celular']
@@ -268,14 +267,14 @@ def usuarios():
     whatsapp = usuarios['whatsapp']
     senha = usuarios['senha']
 
-    data = [{'id_usuario':id_usuario, 'id_cargo':id_cargo, 'cidade':cidade2,'type':usuarios['type'],
+    data = [{'id_usuario':id_usuario, 'id_cargo':id_cargo, 'cidade':cidade,'type':usuarios['type'],
             'id_empresa':id_empresa, 'nome_cliente':nome_cliente,'cpf':cpf,'estado':estado,
             'pais':pais, 'data_nascimento':data_nascimento,'celular':celular, 'email':email, 'instagram':instagram,
             'facebook':facebook, 'whatsapp':whatsapp, 'senha':senha}]
 
     if usuarios['type'] == "insert":
         try:
-            insert = UsersApk(nome_cliente, cpf, cidade2, estado, pais, numero, data_nascimento, celular, 
+            insert = UsersApk(nome_cliente, cpf, cidade, estado, pais, numero, data_nascimento, celular, 
             email, instagram, facebook, whatsapp, senha, id_empresa, id_cargo)
             db.session.add(insert)
             db.session.commit()
@@ -287,7 +286,7 @@ def usuarios():
     elif usuarios['type'] == "update":
         try:
             UsersApk.query.filter_by(id_usuario=id_usuario).update(dict(nome_cliente=nome_cliente, cpf=cpf, 
-            cidade=cidade2, estado=estado, pais=pais, numero=numero, data_nascimento=data_nascimento, celular=celular,
+            cidade=cidade, estado=estado, pais=pais, numero=numero, data_nascimento=data_nascimento, celular=celular,
             email=email, instagram=instagram, facebook=facebook, whatsapp=whatsapp, senha=senha, id_empresa=id_empresa,
             id_cargo=id_cargo))
 

@@ -109,7 +109,7 @@ class UsersApk(db.Model):
     id_empresa = db.Column(db.Integer, db.ForeignKey('empresa.id_empresa'))
     nome_cliente = db.Column(db.Text, nullable=False)
     cpf = db.Column(db.Text, nullable=False)
-    cidade = db.Column(db.Text, nullable=False)
+    cidade = db.Column(db.Text, nullable=True)
     estado = db.Column(db.Text, nullable=False)
     pais = db.Column(db.Text, nullable=False)
     numero = db.Column(db.Text, nullable=False)
