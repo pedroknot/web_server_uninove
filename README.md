@@ -1,6 +1,9 @@
 # web_server_uninove
 Projeto uninove 2020
 
+para subir api:
+rodar comando python3 run.py
+
 ### pip freeze > requirements.txt
 ### pip install -r requirements.txt
 ### python3 run.py runserver //inicia o servidor
