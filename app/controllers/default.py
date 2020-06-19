@@ -256,7 +256,7 @@ def usuarios():
     nome_cliente = usuarios['nome_cliente']
     cpf = usuarios['cpf']
     estado = usuarios['estado']
-    cidade = usuarios['cidade']
+    cidade = usuarios['cidade'], "MG"
     pais = usuarios['pais']
     data_nascimento = usuarios['data_nascimento']
     celular = usuarios['celular']
