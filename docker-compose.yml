@@ -1,25 +1,45 @@
-version: "3"
-services: 
-    app:
-        container_name: app_elastic
-        build: ./
-        ports: 
-            - "5000:5000"
-    
-    # elasticsearch:
-    #     image: docker.elastic.co/elasticsearch/elasticsearch:6.8.3
-    #     environment:
-    #         - cluster.name=docker-cluster
-    #         - bootstrap.memory_lock=true
-    #         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    #     ulimits:
-    #         memlock:
-    #             soft: -1
-    #             hard: -1
-    #     ports:
-    #         - "9200:9200"
-            
-    # kibana:
-    #     image: docker.elastic.co/kibana/kibana:6.8.3
-    #     ports:
-    #         - "5601:5601"
+version: '3.6'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+    ports:
+      - "9200:9200"
+    volumes: 
+      - es-data:/usr/share/elasticsearch/data
+      - ./settings/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./data:/data
+    environment:
+      # - node.name=node1
+      # - discovery.seed_hosts=server1,server2,server3
+      # - cluster.initial_master_nodes=node1,node2,node3
+      # - cluster.name=docker-cluster
+      # - bootstrap.memory_lock=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1  
+    networks: 
+      - elastic
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.5.1
+    volumes: 
+    - ./settings/kibana.yml:/usr/share/kibana/config/kibana.yml:ro   
+    ports: ['5601:5601']
+    #environment: 
+      # - server.name=kibana
+      # - server.host=0.0.0.0
+      # - elasticsearch.hosts=http://elasticsearch:9200
+    networks: 
+      - elastic
+        
+networks:
+  elastic:
+    driver: bridge
+
+volumes:
+  es-data:
+    driver: local    

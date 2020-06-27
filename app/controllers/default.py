@@ -1,13 +1,15 @@
 from flask import render_template, flash, redirect, url_for, jsonify, request
 from flask_login import login_user, logout_user
 from app import app, db, lm, es
+from app.controllers.elastic_data import produtos_query
 
 from app.models.forms import LoginForm
-from app.models.tables import User, Produtos
+from app.models.tables import User
 
 from base64 import b64encode
 import requests
 import os
+import json
 
 """
 Endpoints
@@ -19,10 +21,6 @@ def load_user(id):
     return User.query.filter_by(id=id).first()
 
 
-@app.route("/"+str(b64encode(b"/home/")))# Decorator onde é passado a rota
-def index():
-    return render_template('index.html')
-
 @app.route("/", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -31,7 +29,7 @@ def login():
         if user and user.password == form.password.data:
             login_user(user)
             flash("Logged in.")
-            return redirect(url_for("index"))
+            return redirect(url_for("produtos"))
         else:
             flash("Invalid login.")
     else:
@@ -39,78 +37,57 @@ def login():
     return render_template('login.html',
                             form=form)
 
+
 @app.route("/"+str(b64encode(b"/logout")))
 def logout():
     logout_user()
     flash("Logged out.")
     return redirect(url_for("login"))
 
-@app.route("/"+str(b64encode(b"/produtos")))
+
+@app.route("/produtos")
 def produtos():
-    port = int(os.environ.get("PORT", 5000))
-    produtos = requests.get(f"http://0.0.0.0:{port}/storage/").json()
+    produtos = produtos_query()
     return render_template('produtos.html',
                             produtos=produtos)
 
-@app.route("/"+str(b64encode(b"/contato")))
-def contato():
-    return render_template('contato.html')
+# @app.route("/produtos")
+# def produtos():
+#     body = {
+#         "size":100,
+#         "query": {
+#             "match_all":{}
+#         }
+#     }
 
-@app.route("/"+str(b64encode(b"/sobre")))
-def sobre():
-    return render_template('sobre.html')
+#     res = es.search(index="produto", body=body)
 
-@app.route("/"+str(b64encode(b"/download_app")))
-def download_app():
-    return render_template('download_app.html')
-
-@app.route("/"+str(b64encode(b"/promocoes")))
-def promocoes():
-    return render_template('promocoes.html')
-
-@app.route("/storage/", methods=["GET","POST"])
-def storage():
-    nome_produto = request.form.get('nome')
-    preco = request.form.get('preco')
-    categoria_produto = request.form.get('categoria')
-    if nome_produto or preco or categoria_produto != None:
-        i = Produtos(nome_produto, preco, categoria_produto)
-        db.session.add(i)
-        db.session.commit()
-        return redirect(url_for("storage"))
-    produtos = Produtos.query.all()
-    res = {}
-    for produto in produtos:
-        res[produto.id] = {
-            'produto': produto.nome_produto,
-            'preco': str(produto.preco),
-            'categoria': produto.categoria_produto
-        }
-    return jsonify(res)
+#     resp = []
+#     for produtos in res['hits']['hits']:
+#         resp.append(produtos['_source'])
+#     return jsonify(resp)
 
 
-# @app.route('/', methods=['GET'])
-# def index():
-#     results = es.get(index='produto', doc_type='_doc', id='85234')
-#     return jsonify(results['_source'])
+# @app.route("/storage/", methods=["GET","POST"])
+# def storage():
+#     nome_produto = request.form.get('nome')
+#     preco = request.form.get('preco')
+#     categoria_produto = request.form.get('categoria')
+#     if nome_produto or preco or categoria_produto != None:
+#         i = Produtos(nome_produto, preco, categoria_produto)
+#         db.session.add(i)
+#         db.session.commit()
+#         return redirect(url_for("storage"))
+#     produtos = Produtos.query.all()
+#     res = {}
+#     for produto in produtos:
+#         res[produto.id] = {
+#             'produto': produto.nome_produto,
+#             'preco': str(produto.preco),
+#             'categoria': produto.categoria_produto
+#         }
+#     return jsonify(res)
 
-
-
-@app.route('/insert_data', methods=['POST'])
-def insert_data():
-    id = request.form['id']
-    carro = request.form['carro']
-    preco = request.form['preco']
-
-    body = {
-        'id': id,
-        'carro': carro,
-        'preco': preco
-    }
-
-    result = es.index(index='teste', doc_type='_doc', id=id, body=body)
-
-    return jsonify(result)
 
 
 @app.route('/search', methods=['GET'])
@@ -128,16 +105,6 @@ def search():
     for produtos in res['hits']['hits']:
         resp.append(produtos['_source'])
     return jsonify(resp)
-
-
-
-@app.route('/return_produtos')
-def return_produtos():
-    port = int(os.environ.get("PORT", 5000))
-    produtos = requests.get(f"http://0.0.0.0:{port}/search").json()
-    return render_template('produtos_elastic.html',
-                            produtos=produtos)
-
 
 
 
@@ -160,25 +127,5 @@ def search_term():
     
     return jsonify(res['aggregations']['categorias']['buckets'])
 
-# @app.route("/teste/<info>")
-# @app.route("/teste", defaults={"info":None})
-# def teste(info):
-    # insert
-    # i = User("Pedro","1234", "Pedro H","pedroknots@lalala")
-    # db.session.add(i)
-    # db.session.commit()
-
-    # update
-    # r = User.query.filter_by(username="Pedro").first()
-    # r.name = "Pedro Henrique"
-    # db.session.add(r)
-    # db.session.commit()
-    # print(r.name)
-
-    # delete
-    # r = User.query.filter_by(username="Pedro").first()
-    # db.session.delete(r)
-    # db.session.commit()
-    # return "OK"
 
 
